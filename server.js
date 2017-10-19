@@ -1,7 +1,9 @@
 const express = require('express')
-const axios = require('axios')
 const fs = require('fs')
 const bodyParser = require('body-parser')
+
+const { arquivoPDF } = require('./http-response')
+const servico = require('./servico')
 
 const app = express()
 const port = 3001
@@ -9,24 +11,18 @@ const hostname = 'localhost'
 
 app.use(bodyParser.json())
 
-app.get('/', (req, res) => {
-    res.send('Feito!')
-})
-
-app.get('/documentos/:id', (req, res) => {
-
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=documento.pdf');
-
-    axios.get('http://localhost:3000/pdf', {
-        headers: {
-            'content-type': 'application/pdf'
-        },
-        responseType: 'arraybuffer'
-    })
-        .then(response => response.data)
+app.get('/documentos/:id', arquivoPDF, (req, res) => {
+    servico
+        .buscarArquivo()
         .then(documento => res.send(documento))
 })
+
+app.get('/documentos', arquivoPDF, (req, res) => {
+    servico
+        .buscarArquivosZip()
+        .then(arquivoZip => res.send(arquivoZip))
+})
+
 
 app.listen(port, () => {
     console.log(`Servidor ${hostname} randando na porta ${port}`)
