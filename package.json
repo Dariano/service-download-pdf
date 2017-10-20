@@ -5,7 +5,6 @@
   "main": "server.js",
   "dependencies": {},
   "devDependencies": {
-    "adm-zip": "^0.4.7",
     "axios": "^0.16.2",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
