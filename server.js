@@ -20,7 +20,7 @@ app.get('/documentos/:id', arquivoPDF, (req, res) => {
 app.get('/documentos', arquivoPDF, (req, res) => {
     servico
         .buscarArquivosZip()
-        .then(arquivoZip => res.send(arquivoZip))
+        .then(arquivoZip => res.end(arquivoZip, 'binary'))
 })
 
 
