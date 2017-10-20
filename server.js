@@ -6,7 +6,7 @@ const { arquivoPDF } = require('./http-response')
 const servico = require('./servico')
 
 const app = express()
-const port = 3001
+const port = 3032
 const hostname = 'localhost'
 
 app.use(bodyParser.json())
@@ -20,7 +20,10 @@ app.get('/documentos/:id', arquivoPDF, (req, res) => {
 app.get('/documentos', arquivoPDF, (req, res) => {
     servico
         .buscarArquivosZip()
-        .then(arquivoZip => res.end(arquivoZip, 'binary'))
+        // .then(arquivoZip => res.send(arquivoZip))
+        .then(arquivoZip => {
+
+            res.send(arquivoZip)})
 })
 
 
